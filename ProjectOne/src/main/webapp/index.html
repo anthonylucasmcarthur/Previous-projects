@@ -1,0 +1,223 @@
+
+
+<!-- <html>
+    <head>
+        <title>ProjectOne</title>
+    </head>
+<body>
+<h1>Revature Reimbursements</h1>
+
+
+
+<a href="login1.html">login</a>
+<a href="employee1.html">Employee</a> 
+<a href="manager1.html">Manager</a>  
+
+
+
+
+
+</body>
+
+
+
+</html> -->
+<html>
+
+<head>
+    <title>PNC Corporate Reimbursements</title>
+
+    <style >
+        
+
+        .white {
+            background: white;
+        }
+        
+        
+       
+
+        img {
+            width: 90px;
+            height: 70px;
+            position: relative; bottom: -15px; left: 365px;
+            
+            
+        }
+
+        .foo {
+            background: #ffffff;
+            width: 800px;
+            height: 300px;
+            position: relative;top:-60px;
+            z-index: -1;
+            border: 1px solid black;
+            border-radius: 15px;
+        }
+
+        
+
+        .gray{
+            background: rgb(236, 231, 231);
+            width: 700px;
+            height: 90px;
+            border: 1px solid rgb(59, 58, 58);
+            position: relative;bottom:362px; left:50px;
+            border-radius: 0px 15px 0px 0px;
+        }
+
+        .blue{
+            background: #7777e9;
+            width: 750px;
+            height: 23px;
+            position: relative;bottom:300px;
+            border-radius: 15px 15px 0px 0px;
+        }
+
+        .black{
+            border: 1px solid black;
+            width: 750px;
+            height: 100px;
+            position: relative;bottom:323px; left:0px;
+            border-radius: 15px;
+        }
+
+        .signin{
+            font-size: 25px;
+            color: orange;
+            position: relative;bottom:475px; right:340px;
+        }
+
+        .userid{
+            color: black;
+            font: normal normal 50px 200px;
+            position: relative;bottom:422px; right:300px;
+        }
+
+        .pass{
+            color: black;
+            font: normal normal 50px 200px;
+            position: relative;bottom:416px; right:305px;
+        }
+
+        .buttons {
+            position: relative;bottom:452px; left: 242px;
+            border-radius: 15px;
+        }
+
+
+        .username{
+            position: relative;bottom:462px; right:0px; 
+        }
+
+        .password{
+            position: relative;bottom:457px; right: 0px;
+        }
+        input[type=text] {
+            width: 35%;
+            border: 1px solid #7777e9; 
+        }
+
+        .responseclass{
+            font-size: 25px;
+            position: relative;bottom:300px;
+        }
+    </style>
+</head>
+
+<body style="background-color:powderblue;">
+    
+
+
+<p>
+    
+</p>
+
+    <img src="36c655cfeed449cbe3a82566d172c5a8.jpg">
+
+    <center>
+       
+            <div class="foo"></div>
+            <div class="gray"></div>
+            <div class ="blue"></div>
+            <div class ="black"></div>
+            <div class ="signin">Sign in</div>
+            <div Class ="userid">User ID</div>
+            <div class="pass">Password</div>
+            <div class = "username">
+                <input type="text" id = "username" value="Enter username">
+            </div>
+            <div class = "password">
+                <input type="text" id = "password" value="Enter password">
+            </div>
+
+             <div class = "buttons">
+                <button onclick="login()">Login</button> 
+
+            </div>
+            <div class="responseclass">
+                <div id="response"></div>
+            </div>
+            
+    </center>
+    
+
+        
+
+     
+    
+     
+
+    
+
+
+</body>
+
+<script>
+    
+
+
+function login(){
+
+    
+
+    let username = document.getElementById("username").value;
+    
+    let password = document.getElementById("password").value;
+
+
+    let xhttp = new XMLHttpRequest();
+
+
+    xhttp.open("GET",`http://localhost:8080/ProjectOne/login.do?username=${username}&password=${password}`);
+    
+
+    xhttp.onreadystatechange = function(){
+        if(this.readyState === 4 & this.status === 200){
+            if (xhttp.responseURL === 'http://localhost:8080/ProjectOne/employee1.html') {
+                window.location.href = this.responseURL;
+                // window.location.replace("http://localhost:8080/ProjectOne/employee1.html");
+                console.log(xhttp.responseURL);
+        
+            } else if (xhttp.responseURL === "http://localhost:8080/ProjectOne/manager1.html"){
+                
+                window.location.href = this.responseURL;
+                
+            } else {
+                document.getElementById("response").innerHTML = this.responseText;
+            }
+        }
+    }
+    
+    
+
+   
+    xhttp.send();
+    
+}
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+
+<head>
+     <title>PNC Reimbursements</title>
+   
+     <style>
+     
+     .header{
+        font-size: 50px;
+        color: black;
+    }  
+
+    .border2{
+        border: 1px solid black;
+        border-radius: 25px;
+        height: 500px;
+        width: 300px;
+        background-color: rgb(236, 231, 231);
+        position: absolute; bottom: 150px; left: 35px;
+
+    }
+
+    .approvebox{
+        border: 1px solid black;
+        border-radius: 0px 0px 25px 25px;
+        height: 425px;
+        width: 300px;
+        background-color: white;
+        position: absolute; bottom: 150px; left: 35px;
+   
+    }
+
+    .title{
+        font-size: 30px;
+        position: absolute; bottom: 590px; left: 40px;
+    }  
+
+    .border{
+        border: 1px solid black;
+        border-radius: 25px;
+        height: 500px;
+        width: 300px;
+        background-color: rgb(236, 231, 231);
+        position: absolute; bottom: 150px; left: 1200px;
+  
+    }
+
+    .viewbox{
+        border: 1px solid black;
+        border-radius: 0px 0px 25px 25px;
+        height: 425px;
+        width: 300px;
+        background-color: white;
+        position: absolute; bottom: 150px; left: 1200px;
+   
+    }
+
+    .text{
+        font-size: 40px;
+        position: absolute; bottom: 580px; left: 1310px; 
+    }
+
+    .description{
+        font-size: 17px;
+        position: absolute; bottom: 520px; left: 104px;
+    }
+
+    .description2{
+        font-size: 17px;
+        position: absolute; bottom: 450px; left: 107px;
+        z-index: 5;
+    }
+
+    .amountclass{
+        position: absolute; bottom: 500px; left: 105px;
+    }
+
+    .commentclass{
+        position: absolute; bottom: 425px; left: 105px; 
+    }
+
+    .submitbutton{
+        position: absolute; bottom: 350px; left: 158px; 
+    }
+
+
+    .viewbutton{
+        position: absolute; bottom: 500px; left: 1290px;
+    }
+
+    .responseclass{
+        padding-top: 150px;
+    }
+
+    .logout{
+        color: red;
+        font-size: 22px;
+    } 
+
+     </style>
+ 
+</head>
+
+<body style = background-color:powderblue>
+    
+    <center>
+        <div class = "header"> Reimbursements </div>
+    
+        <div class ="responseclass">
+            <div id="response"></div>
+        </div>
+    
+        <div class= "tableclass">
+            <div id="table"></div>
+        </div>
+    
+        <div class="logout">
+            <a href="index.html">Log out</a>
+        </div>
+    </center>
+
+
+    <div class="border2"></div>  
+
+    <div class="approvebox"></div>
+
+    <div class = "title">
+        Submit Reimbursement
+    </div>  
+
+    <div class="border"></div>
+
+    <div class="viewbox"></div>
+
+    <div class="text">
+        View 
+    </div>
+
+    <div class="description">
+        Reimbursement amount
+    </div>
+
+    <div class ="description2">
+        Reason for reimbursement
+    </div>
+
+    <div class = "amountclass"> 
+        <input type="number" id = "amount" value="Enter amount">
+    </div>
+
+    <div class ="commentclass">
+        <input type="text" id = "comment">
+    </div>
+
+    <div class ="submitbutton">
+       <button onclick="reimbursement()">Submit</button> 
+    </div>
+
+    <div class ="viewbutton">
+        <button onclick="pastrequests()">View All Requests</button>
+    </div>
+
+
+
+    <div id="response"></div>
+ <!-- <div id="table"></div> -->
+
+ 
+</body>
+
+<script>
+    
+var username = 'username';
+alert(username)
+console.log(username);
+
+function tableMaker(reimbursement){
+let tdata = `<table  style="border: 1px solid black" bgcolor="white">
+        <tr bgcolor = "white">
+        <th style="border: 1px solid black">Number</th>
+        <th style="border: 1px solid black">Amount
+        <th style="border: 1px solid black">Date</th>
+        <th style="border: 1px solid black">Comment</th>
+        <th style="border: 1px solid black">Status</th> 
+        <th style="border: 1px solid black">Manager Comment</th>
+          </tr>`;
+          console.log(tdata);
+    for (x in reimbursement) {
+      tdata += `<tr bgcolor = "white">
+        <td style="text-align:center; border: 1px solid black">${reimbursement[x].r_id}</td>
+        <td style="text-align:center; border: 1px solid black">${reimbursement[x].amount}</td>
+        <td style="text-align:center; border: 1px solid black">${reimbursement[x].date}</td>
+        <td style="text-align:center; border: 1px solid black">${reimbursement[x].comment}</td>
+        <td style="text-align:center; border: 1px solid black">${reimbursement[x].status}</td>
+        <td style="text-align:center; border: 1px solid black">${reimbursement[x].managercomment}</td>
+          </tr>`;
+    }
+    console.log(tdata);
+ tdata += `</table>`;
+    document.getElementById("response").innerHTML = tdata; 
+}
+
+function reimbursement(){
+
+    let xhttp = new XMLHttpRequest();
+    
+    xhttp.onreadystatechange = function(){
+        if(this.readyState === 4 & this.status === 200){
+            document.getElementById("response").innerHTML = this.responseText;
+
+                      
+            // var json_data = JSON.parse(this.responseText);
+            // tableMaker(json_data);
+
+            // var obj = JSON.parse(this.responseText);
+
+
+            // document.getElementById("response").innerHTML = 
+            
+            // `<table class = "table">
+            //     <thead class="thead-dark">
+            //     <tr>
+            //         <th scope ="col">ID</th>
+            //         <th scope ="col">Amount</th>
+            //         <th scope ="col">Date</th>
+            //         <th scope ="col">Comment</th>
+            //         <th scope ="col">Status</th>
+            //     </tr>
+            //     </thead>
+
+            //     <tbody>
+            //     <tr>
+            //         <td>${obj.r_id}</td>
+            //         <td>${obj.amount}</td>
+            //         <td>${obj.date}<td>
+            //         <td>${obj.comment}</td>
+            //         <td>${obj.status}</td>
+            //     </tr>
+            //     </tbody>
+            // </table>`
+                
+
+        }
+    }
+
+    
+    let amount = document.getElementById("amount").value;
+    console.log(amount);
+    let comment = document.getElementById("comment").value;
+    console.log(comment);
+
+    xhttp.open("POST",`http://localhost:8080/ProjectOne/submitReimbursement.do?username=${username}&amount=${amount}&comment=${comment}`);
+
+
+
+    xhttp.send();
+    
+}
+
+function pastrequests(){
+
+let xhttp = new XMLHttpRequest();
+
+
+xhttp.onreadystatechange = function(){
+    if(this.readyState === 4 & this.status === 200){
+        // document.getElementById("response").innerHTML = this.responseText;
+
+        var json_data = JSON.parse(this.responseText);
+        console.log(json_data);
+
+        tableMaker(json_data);
+        }
+        // var result = [];
+
+        // for(var i in json_data)
+        // result.push([i, json_data [i]]);
+
+
+        // console.log(result);
+
+
+        // document.getElementById("table").innerHTML =
+
+        // `<table class = "table">
+        //         <thead class="thead-dark">
+        //         <tr>
+        //             <th scope = "col">id</th>
+        //             <th scope ="col">Amount</th>
+        //             <th scope ="col">Date</th>
+        //             <th scope ="col">Comment</th>
+        //             <th scope ="col">Status</th>
+        //             <th scope ="col">Manager Comment</th>
+        //         </tr>
+        //         </thead>
+
+        //         <tbody class="thead-light">
+        //         <tr>
+        //             <td scope = "row">...</td>
+        //             <td>...</td>
+        //             <td>...<td>
+        //             <td>...</td>
+        //             <td>...</td>
+        //             <td>...</td>
+        //         </tr>
+        //         </tbody>
+        //     </table>`
+
+
+       
+
+
+        //     (function() {
+        //         var table = document.getElementById("table");
+        //         console.log(table);
+        //         for(var i in result){
+        //             var row = table.insertRow(0);
+                    
+
+        //             var cell = row.insertCell(0);
+        //             var r_id = document.createTextNode(i.r_id);
+        //             cell.appendChild(r_id);
+
+        //             var cell = row.insertCell(1);
+        //             var r_id = document.createTextNode(i.amount);
+        //             cell.appendChild(amount);
+
+        //             var cell = row.insertCell(2);
+        //             var r_id = document.createTextNode(i.date);
+        //             cell.appendChild(date);
+
+        //             var cell = row.insertCell(3);
+        //             var r_id = document.createTextNode(i.comment);
+        //             cell.appendChild(comment);
+
+        //             var cell = row.insertCell(4);
+        //             var r_id = document.createTextNode(i.status);
+        //             cell.appendChild(status);
+
+        //             var cell = row.insertCell(5);
+        //             var r_id = document.createTextNode(i.manangercomment);
+        //             cell.appendChild(managercomment);
+        //         }
+        //     }());
+        
+        
+    }
+
+
+xhttp.open("GET",`http://localhost:8080/ProjectOne/getReimbursementsForEmployee.do?username=${username}`);
+
+
+
+xhttp.send();
+
+}
+
+
+
+</script>
+
+</html>
